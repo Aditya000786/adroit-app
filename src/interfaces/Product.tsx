@@ -10,6 +10,7 @@ interface Product {
   pts: number;
   gst: number;
   quantity?: number;
+  ptsValue?: number;
 }
 
 export default Product;

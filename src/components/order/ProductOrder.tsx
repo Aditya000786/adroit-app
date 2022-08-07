@@ -3,13 +3,24 @@ import React, { useState, useEffect } from "react";
 import Product from "../../interfaces/Product";
 import AllProducts from "../../services/DataService";
 
+function calculateValues(addedProducts: Array<any>) {
+  const netValue = addedProducts.reduce((previousValue, currentValue) => {
+    return previousValue + currentValue.ptsValue;
+  }, 0);
+  return {
+    nv: netValue.toFixed(2),
+    tax: (netValue * 0.12).toFixed(2),
+    gv: (netValue + netValue * 0.12).toFixed(2),
+  };
+}
 function ProductOrder(props: any) {
   const { addedProducts } = props;
+  const amountValues = calculateValues(addedProducts);
   const ReaminingProducts = AllProducts.filter(
     (x) => !addedProducts.find((ap: Product) => ap.productId === x.productId)
   );
   const [isLoading, setLoading] = useState(true);
-  const [productValue, setProductValue] = useState({});
+  const [productValue, setProductValue] = useState<any>({});
   const [quantityValue, setQuantityValue] = useState({});
 
   const productSelected = (event: any, selectedProduct: any) => {
@@ -24,10 +35,19 @@ function ProductOrder(props: any) {
     return option.productId === value.productId;
   };
   const addProduct = () => {
-    if (quantityValue === "" || isNaN(Number(quantityValue))) return;
+    let numQuantityValue = Number(quantityValue);
+    if (
+      quantityValue === "" ||
+      isNaN(numQuantityValue) ||
+      Object.keys(productValue).length === 0
+    )
+      return;
     props.addProduct({
       ...productValue,
-      ...{ quantity: Number(quantityValue) },
+      ...{
+        quantity: numQuantityValue,
+        ptsValue: Number((numQuantityValue * productValue.pts).toFixed(2)),
+      },
     });
     setProductValue({});
     console.log(quantityValue, productValue);
@@ -64,11 +84,14 @@ function ProductOrder(props: any) {
           onChange={handleQuantityChange}
         />
         <br />
-
         <Button sx={{ width: "100%" }} variant="outlined" onClick={addProduct}>
           Add Product
         </Button>
         <br />
+        <Box sx={{ width: "100%" }}>
+          Net Value: {amountValues.nv} || Tax Value: {amountValues.tax} || Gross
+          Value: {amountValues.gv}
+        </Box>
       </Grid>
     </Box>
   ) : (

@@ -71,7 +71,7 @@ const AllProducts: Array<Product> = [
     mrp: 67.2,
     ptr: 48.0,
     pts: 43.2,
-    gst: 50,
+    gst: 12,
   },
   {
     productId: 7,

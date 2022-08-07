@@ -60,8 +60,32 @@ const headCells: readonly HeadCell[] = [
   {
     id: "quantity",
     numeric: true,
-    disablePadding: false,
+    disablePadding: true,
     label: "Quantity",
+  },
+  {
+    id: "ptsValue",
+    numeric: true,
+    disablePadding: true,
+    label: "Amount",
+  },
+  {
+    id: "mrp",
+    numeric: true,
+    disablePadding: true,
+    label: "MRP",
+  },
+  {
+    id: "ptr",
+    numeric: true,
+    disablePadding: true,
+    label: "PTR",
+  },
+  {
+    id: "pts",
+    numeric: true,
+    disablePadding: true,
+    label: "PTS",
   },
   {
     id: "batchNo",
@@ -74,24 +98,6 @@ const headCells: readonly HeadCell[] = [
     numeric: false,
     disablePadding: true,
     label: "Expiry Date",
-  },
-  {
-    id: "mrp",
-    numeric: true,
-    disablePadding: false,
-    label: "MRP",
-  },
-  {
-    id: "ptr",
-    numeric: true,
-    disablePadding: false,
-    label: "PTR",
-  },
-  {
-    id: "pts",
-    numeric: true,
-    disablePadding: false,
-    label: "PTS",
   },
 ];
 
@@ -131,14 +137,15 @@ function EnhancedTableHead(props: EnhancedTableProps) {
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
             inputProps={{
-              "aria-label": "select all desserts",
+              "aria-label": "select all products",
             }}
           />
         </TableCell>
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? "right" : "left"}
+            align={"left"}
+            // align={headCell.numeric ? "right" : "left"}
             padding={headCell.disablePadding ? "none" : "normal"}
             sortDirection={orderBy === headCell.id ? order : false}
           >
@@ -163,11 +170,14 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 
 interface EnhancedTableToolbarProps {
   numSelected: number;
+  deleteRow: Function;
 }
 
 const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
   const { numSelected } = props;
-
+  const deleteRow = (event: React.MouseEvent<HTMLElement>) => {
+    props.deleteRow();
+  };
   return (
     <Toolbar
       sx={{
@@ -203,7 +213,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
       )}
       {numSelected > 0 ? (
         <Tooltip title="Delete">
-          <IconButton>
+          <IconButton onClick={deleteRow}>
             <DeleteIcon />
           </IconButton>
         </Tooltip>
@@ -221,12 +231,13 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
 export default function EnhancedTable(props: any) {
   let rows: Array<Product> = [];
   rows = props.rows;
+  const removeProducts: Function = props.removeProducts;
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<keyof Product>("label");
   const [selected, setSelected] = React.useState<readonly number[]>([]);
   const [page, setPage] = React.useState(0);
   const [dense] = React.useState(false);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
@@ -278,7 +289,11 @@ export default function EnhancedTable(props: any) {
   };
 
   const isSelected = (productId: number) => selected.indexOf(productId) !== -1;
-
+  const deleteSelectedRows = () => {
+    let productsToBeRemoved = rows.filter((x: any) => isSelected(x.productId));
+    removeProducts(productsToBeRemoved);
+    setSelected([]);
+  };
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
@@ -286,7 +301,10 @@ export default function EnhancedTable(props: any) {
   return (
     <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar
+          numSelected={selected.length}
+          deleteRow={deleteSelectedRows}
+        />
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
@@ -337,12 +355,13 @@ export default function EnhancedTable(props: any) {
                       >
                         {row.label}
                       </TableCell>
-                      <TableCell align="right">{row.quantity}</TableCell>
+                      <TableCell padding="none">{row.quantity}</TableCell>
+                      <TableCell padding="none">{row.ptsValue}</TableCell>
+                      <TableCell padding="none">{row.mrp}</TableCell>
+                      <TableCell padding="none">{row.ptr}</TableCell>
+                      <TableCell padding="none">{row.pts}</TableCell>
                       <TableCell padding="none">{row.batchNo}</TableCell>
                       <TableCell padding="none">{row.expDate}</TableCell>
-                      <TableCell align="right">{row.mrp}</TableCell>
-                      <TableCell align="right">{row.ptr}</TableCell>
-                      <TableCell align="right">{row.pts}</TableCell>
                     </TableRow>
                   );
                 })}

@@ -57,15 +57,23 @@ import Product from "../../interfaces/Product";
 function OrdersPage(props: any) {
   const [addedProducts, setAddedProducts] = useState<Array<Product>>([]);
   const addProduct = (product: Product) => {
+    console.log(product);
     let temp = addedProducts;
     temp.push(product);
-    // console.log(rows);
+    setAddedProducts(JSON.parse(JSON.stringify(temp)));
+  };
+  const removeProducts = (productsToRemove: Array<Product>) => {
+    console.log(productsToRemove);
+    let toRemove = productsToRemove.map((x: Product) => x.productId);
+    let temp = addedProducts.filter(
+      (x: Product) => toRemove.indexOf(x.productId) === -1
+    );
     setAddedProducts(JSON.parse(JSON.stringify(temp)));
   };
   return (
     <>
       <ProductOrder addProduct={addProduct} addedProducts={addedProducts} />
-      <OrderList rows={addedProducts} />
+      <OrderList rows={addedProducts} removeProducts={removeProducts} />
     </>
   );
 }
