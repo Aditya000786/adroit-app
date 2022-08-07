@@ -22,59 +22,6 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
 import Product from "../../interfaces/Product";
 
-function createData(
-  productId: number,
-  label: string,
-  pack: string,
-  batchNo: string,
-  hsn: string,
-  expDate: string,
-  mrp: number,
-  ptr: number,
-  pts: number,
-  gst: number
-): Product {
-  return {
-    productId,
-    label,
-    pack,
-    batchNo,
-    hsn,
-    expDate,
-    mrp,
-    ptr,
-    pts,
-    gst,
-  };
-}
-
-const rows = [
-  createData(
-    1,
-    "Lycorit Plus Cap",
-    "1*10 Cap",
-    "SPC-18383",
-    "30049099",
-    "OCT-23",
-    130,
-    92.86,
-    83.57,
-    12
-  ),
-  createData(
-    2,
-    "Adrofer XT Tab",
-    "1*10 Cap",
-    "SPC-18383",
-    "30049099",
-    "OCT-23",
-    130,
-    92.86,
-    83.57,
-    12
-  ),
-];
-
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -90,30 +37,10 @@ type Order = "asc" | "desc";
 function getComparator<Key extends keyof any>(
   order: Order,
   orderBy: Key
-): (
-  a: { [key in Key]: number | string },
-  b: { [key in Key]: number | string }
-) => number {
+): (a: any, b: any) => number {
   return order === "desc"
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
-}
-
-// This method is created for cross-browser compatibility, if you don't
-// need to support IE11, you can use Array.prototype.sort() directly
-function stableSort<T>(
-  array: readonly T[],
-  comparator: (a: T, b: T) => number
-) {
-  const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) {
-      return order;
-    }
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
 }
 
 interface HeadCell {
@@ -129,6 +56,12 @@ const headCells: readonly HeadCell[] = [
     numeric: false,
     disablePadding: true,
     label: "Name",
+  },
+  {
+    id: "quantity",
+    numeric: true,
+    disablePadding: false,
+    label: "Quantity",
   },
   {
     id: "batchNo",
@@ -285,7 +218,9 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
   );
 };
 
-export default function EnhancedTable() {
+export default function EnhancedTable(props: any) {
+  let rows: Array<Product> = [];
+  rows = props.rows;
   const [order, setOrder] = React.useState<Order>("asc");
   const [orderBy, setOrderBy] = React.useState<keyof Product>("label");
   const [selected, setSelected] = React.useState<readonly number[]>([]);
@@ -367,9 +302,9 @@ export default function EnhancedTable() {
               rowCount={rows.length}
             />
             <TableBody>
-              {/* if you don't need to support IE11, you can replace the `stableSort` call with:
-              rows.slice().sort(getComparator(order, orderBy)) */}
-              {stableSort(rows, getComparator(order, orderBy))
+              {rows
+                .slice()
+                .sort(getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.productId);
@@ -402,6 +337,7 @@ export default function EnhancedTable() {
                       >
                         {row.label}
                       </TableCell>
+                      <TableCell align="right">{row.quantity}</TableCell>
                       <TableCell padding="none">{row.batchNo}</TableCell>
                       <TableCell padding="none">{row.expDate}</TableCell>
                       <TableCell align="right">{row.mrp}</TableCell>
