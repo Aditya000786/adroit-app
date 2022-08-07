@@ -1,21 +1,17 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
+import { Route, Routes } from "react-router-dom";
+import ProductOrder from "./components/order/ProductOrder";
+import Home from "./components/home/Home";
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Adroit App Final Changes</p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/order" element={<ProductOrder />} />
+        </Routes>
       </header>
     </div>
   );
