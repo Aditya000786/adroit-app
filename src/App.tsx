@@ -7,7 +7,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>Adroit App Changing on Local</p>
+        <p>Adroit App Final Changes</p>
         <a
           className="App-link"
           href="https://reactjs.org"
