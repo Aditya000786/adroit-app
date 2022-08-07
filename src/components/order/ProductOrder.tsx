@@ -4,13 +4,17 @@ import Product from "../../interfaces/Product";
 import AllProducts from "../../services/DataService";
 
 function calculateValues(addedProducts: Array<any>) {
-  const netValue = addedProducts.reduce((previousValue, currentValue) => {
+  const netPtsValue = addedProducts.reduce((previousValue, currentValue) => {
     return previousValue + currentValue.ptsValue;
   }, 0);
+  const netPtrValue = addedProducts.reduce((previousValue, currentValue) => {
+    return previousValue + currentValue.ptrValue;
+  }, 0);
   return {
-    nv: netValue.toFixed(2),
-    tax: (netValue * 0.12).toFixed(2),
-    gv: (netValue + netValue * 0.12).toFixed(2),
+    nv: netPtsValue.toFixed(2),
+    dr: netPtrValue.toFixed(2),
+    tax: (netPtsValue * 0.12).toFixed(2),
+    gv: (netPtsValue + netPtsValue * 0.12).toFixed(2),
   };
 }
 function ProductOrder(props: any) {
@@ -47,6 +51,7 @@ function ProductOrder(props: any) {
       ...{
         quantity: numQuantityValue,
         ptsValue: Number((numQuantityValue * productValue.pts).toFixed(2)),
+        ptrValue: Number((numQuantityValue * productValue.ptr).toFixed(2)),
       },
     });
     setProductValue({});
@@ -89,7 +94,8 @@ function ProductOrder(props: any) {
         </Button>
         <br />
         <Box sx={{ width: "100%" }}>
-          Net Value: {amountValues.nv} <br /> Tax Value: {amountValues.tax}{" "}
+          Net Value: {amountValues.nv} <br />
+          Dr Value: {amountValues.dr} <br /> Tax Value: {amountValues.tax}{" "}
           <br /> Gross Value: {amountValues.gv}
         </Box>
       </Grid>

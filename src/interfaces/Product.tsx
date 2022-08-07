@@ -11,6 +11,7 @@ interface Product {
   gst: number;
   quantity?: number;
   ptsValue?: number;
+  ptrValue?: number;
 }
 
 export default Product;

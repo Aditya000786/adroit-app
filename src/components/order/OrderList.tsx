@@ -70,6 +70,12 @@ const headCells: readonly HeadCell[] = [
     label: "Amount",
   },
   {
+    id: "ptrValue",
+    numeric: true,
+    disablePadding: true,
+    label: "DR. Amount",
+  },
+  {
     id: "mrp",
     numeric: true,
     disablePadding: true,
@@ -357,6 +363,7 @@ export default function EnhancedTable(props: any) {
                       </TableCell>
                       <TableCell padding="none">{row.quantity}</TableCell>
                       <TableCell padding="none">{row.ptsValue}</TableCell>
+                      <TableCell padding="none">{row.ptrValue}</TableCell>
                       <TableCell padding="none">{row.mrp}</TableCell>
                       <TableCell padding="none">{row.ptr}</TableCell>
                       <TableCell padding="none">{row.pts}</TableCell>
