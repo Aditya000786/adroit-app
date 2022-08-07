@@ -28,7 +28,7 @@ const AllProducts: Array<Product> = [
   {
     productId: 3,
     label: "Adrocal Tab",
-    pack: "1*10 Cap",
+    pack: "1*10 Tab",
     batchNo: "SPT-31662",
     hsn: "30049099",
     expDate: "DEC-23",
@@ -79,7 +79,7 @@ const AllProducts: Array<Product> = [
     pack: "1*10 Tab",
     batchNo: "SPT-32239",
     hsn: "30042019",
-    expDate: "MAR-23",
+    expDate: "MAR-24",
     mrp: 119.39,
     ptr: 85.28,
     pts: 76.75,
