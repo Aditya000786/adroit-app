@@ -89,8 +89,8 @@ function ProductOrder(props: any) {
         </Button>
         <br />
         <Box sx={{ width: "100%" }}>
-          Net Value: {amountValues.nv} || Tax Value: {amountValues.tax} || Gross
-          Value: {amountValues.gv}
+          Net Value: {amountValues.nv} <br /> Tax Value: {amountValues.tax}{" "}
+          <br /> Gross Value: {amountValues.gv}
         </Box>
       </Grid>
     </Box>
