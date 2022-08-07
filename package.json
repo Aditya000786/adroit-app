@@ -1,8 +1,8 @@
 {
   "name": "adroit-app",
   "version": "0.1.0",
-  "private": true,
-  "homepage": "https://Aditya000786.github.io/react-gh-pages",
+  "private": false,
+  "homepage": "https://aditya000786.github.io/adroit-app",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",
