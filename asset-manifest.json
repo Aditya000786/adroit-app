@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/adroit-app/static/css/main.073c9b0a.css",
-    "main.js": "/adroit-app/static/js/main.f150c2be.js",
+    "main.css": "/adroit-app/static/css/main.cdd0ea60.css",
+    "main.js": "/adroit-app/static/js/main.c0734f0f.js",
     "static/js/787.35ba8409.chunk.js": "/adroit-app/static/js/787.35ba8409.chunk.js",
     "static/media/logo.svg": "/adroit-app/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
     "index.html": "/adroit-app/index.html",
-    "main.073c9b0a.css.map": "/adroit-app/static/css/main.073c9b0a.css.map",
-    "main.f150c2be.js.map": "/adroit-app/static/js/main.f150c2be.js.map",
+    "main.cdd0ea60.css.map": "/adroit-app/static/css/main.cdd0ea60.css.map",
+    "main.c0734f0f.js.map": "/adroit-app/static/js/main.c0734f0f.js.map",
     "787.35ba8409.chunk.js.map": "/adroit-app/static/js/787.35ba8409.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.073c9b0a.css",
-    "static/js/main.f150c2be.js"
+    "static/css/main.cdd0ea60.css",
+    "static/js/main.c0734f0f.js"
   ]
 }
